@@ -401,7 +401,7 @@ function DetailOverlay({ result, onClose }){
         <tbody>{parties.map(p=> <tr key={p.party_code}><td>{p.party_code}</td><td>{p.party_name}</td><td style={{textAlign:'right'}}>{(p.votes||0).toLocaleString()}</td><td style={{textAlign:'right'}}>{p.percentage!=null? p.percentage: ''}</td></tr>)}</tbody>
       </table>
       <h3 className='subheading'>Raw JSON</h3>
-      <pre style={{maxHeight:200, overflow:'auto', background:'#0f141a', padding:12, border:'1px solid #222b33', borderRadius:8, fontSize:11}}>{JSON.stringify(result, null, 2)}</pre>
+  <pre className='json-raw-block'>{JSON.stringify(result, null, 2)}</pre>
     </div>
   </div>;
 }

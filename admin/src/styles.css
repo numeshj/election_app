@@ -352,7 +352,70 @@ html,
 
 /* Overlay (shared style) */
 .overlay-lite { position:fixed; inset:0; background:rgba(0,0,0,.55); display:flex; align-items:center; justify-content:center; z-index:100; }
-.overlay-content-box { width:min(900px,92%); max-height:88vh; overflow:auto; background:#161b22; border:1px solid var(--border); border-radius:14px; padding:24px; }
+.overlay-content-box {
+    width: min(940px, 94%);
+    max-height: 88vh;
+    overflow: auto;
+    background: linear-gradient(145deg, rgba(22,27,34,0.92) 0%, rgba(17,22,28,0.86) 60%) padding-box;
+    border: 1px solid rgba(99, 110, 123, 0.35);
+    border-radius: 18px;
+    padding: clamp(18px, 2.6vw, 34px);
+    box-shadow:
+        0 2px 4px -2px rgba(0,0,0,.4),
+        0 12px 34px -8px rgba(0,0,0,.55),
+        0 0 0 1px rgba(255,255,255,0.02) inset;
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    position: relative;
+    animation: overlayPop .45s cubic-bezier(.22,.99,.34,1.01);
+    scroll-behavior: smooth;
+}
+
+@keyframes overlayPop {
+    0% { opacity: 0; transform: translateY(14px) scale(.97); }
+    60% { opacity: 1; transform: translateY(-2px) scale(1.01); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Subtle gradient border ring on focus within (keyboard navigation) */
+.overlay-content-box:focus-within::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    padding: 1px; /* inner ring */
+    background: linear-gradient(120deg, rgba(31,111,235,.6), rgba(110,73,255,.4), rgba(31,111,235,.6));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+        mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+        mask-composite: exclude;
+}
+
+/* Scrollbar styling (WebKit) */
+.overlay-content-box::-webkit-scrollbar { width: 10px; }
+.overlay-content-box::-webkit-scrollbar-track { background: transparent; }
+.overlay-content-box::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg,#27313c,#1d252d);
+    border: 2px solid transparent;
+    border-radius: 20px;
+    background-clip: padding-box;
+}
+.overlay-content-box::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg,#2f3a46,#242c34); }
+
+/* Firefox scrollbar */
+@supports (scrollbar-width: thin) {
+  .overlay-content-box { scrollbar-width: thin; scrollbar-color: #2f3944 transparent; }
+}
+
+/* Responsive tightening */
+@media (max-width: 640px) {
+  .overlay-content-box { gap: 14px; padding: 20px 18px 26px; border-radius: 16px; }
+  .overlay-title { font-size: 18px; }
+}
 .overlay-head { display:flex; justify-content:space-between; align-items:center; gap:16px; }
 .overlay-title { margin:0; font-size:20px; font-weight:600; }
 .btn-close { background:#333; color:#fff; border:1px solid #444; padding:8px 14px; cursor:pointer; border-radius:6px; font-size:12px; }
@@ -362,6 +425,26 @@ html,
 .summary-block { font-size:12px; display:flex; flex-direction:column; gap:6px; }
 .plain-list { list-style:none; padding:0; margin:0; }
 .subheading { margin:20px 0 10px; font-size:15px; font-weight:600; }
+
+/* Raw JSON block */
+.json-raw-block {
+    max-height: 420px;
+    min-height: 260px;
+    overflow: auto;
+    background: #0f141a;
+    padding: 14px 16px;
+    border: 1px solid #222b33;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 1.35;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    white-space: pre;
+    scrollbar-width: thin;
+}
+.json-raw-block::-webkit-scrollbar { width: 10px; }
+.json-raw-block::-webkit-scrollbar-track { background: transparent; }
+.json-raw-block::-webkit-scrollbar-thumb { background:#1d232b; border-radius:20px; }
+.json-raw-block:hover { border-color:#2a3139; }
 
 /* Staging (bulk imports) */
 .staging-panel { border:1px solid var(--border); }
