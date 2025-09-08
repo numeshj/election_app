@@ -1,0 +1,234 @@
+{
+  "SriLankaPresidentialElection2024": {
+    "parties": [
+      {
+        "code": "IND1",
+        "partyName": "Independent Candidate 1",
+        "candidate": "AKMEEMANA DAYARATHANA THERO",
+        "color": "#ff006e"
+      },
+      {
+        "code": "DUA",
+        "partyName": "Democratic Unity Alliance",
+        "candidate": "ABUBAKAR MOHAMED INFAS",
+        "color": "#ef476f"
+      },
+      {
+        "code": "IND2",
+        "partyName": "Independent Candidate 2",
+        "candidate": "SIRIPALA AMARASINGHE",
+        "color": "#8338ec"
+      },
+      {
+        "code": "IND4",
+        "partyName": "Independent Candidate 4",
+        "candidate": "K.K. PIYADASA",
+        "color": "#bc6c25"
+      },
+      {
+        "code": "IND5",
+        "partyName": "Independent Candidate 5",
+        "candidate": "SARATH KEERTHIRATHNA",
+        "color": "#40916c"
+      },
+      {
+        "code": "IND6",
+        "partyName": "Independent Candidate 6",
+        "candidate": "K.A. KULARATNA",
+        "color": "#118ab2"
+      },
+      {
+        "code": "APP",
+        "partyName": "Arunalu Peoples Alliance",
+        "candidate": "K.R. KRISHAN",
+        "color": "#2ec4b6"
+      },
+      {
+        "code": "IND7",
+        "partyName": "Independent Candidate 7",
+        "candidate": "PALLIMULLA KAPUGAMAGE ANURA SIDNEY JAYARATHNA",
+        "color": "#e63946"
+      },
+      {
+        "code": "SLCP",
+        "partyName": "Communist Party of Sri Lanka",
+        "candidate": "DILITH JAYAWEERA",
+        "color": "#FF0000"
+      },
+      {
+        "code": "USP",
+        "partyName": "United Socialist Party",
+        "candidate": "SIRITUNGA JAYASURIYA",
+        "color": "#C00000"
+      },
+      {
+        "code": "IND8",
+        "partyName": "Independent Candidate 8",
+        "candidate": "MYLVAGANAM THILAKARAJAH",
+        "color": "#06d6a0"
+      },
+      {
+        "code": "DUNF",
+        "partyName": "Democratic United National Front",
+        "candidate": "AGAMPODI PRASANGA SURANJEEWA ANOJ DE SILVA",
+        "color": "#ff9f1c"
+      },
+      {
+        "code": "UNFF",
+        "partyName": "United National Freedom Front",
+        "candidate": "LALITH DE SILVA",
+        "color": "#ef476f"
+      },
+      {
+        "code": "RJA",
+        "partyName": "Ruhunu Janatha Alliance",
+        "candidate": "AJANTHA DE ZOYSA",
+        "color": "#40916c"
+      },
+      {
+        "code": "NPP",
+        "partyName": "Jathika Jana Balawegaya",
+        "candidate": "ANURA KUMARA DISSANAYAKE",
+        "color": "#E5006A"
+      },
+      {
+        "code": "SLSP",
+        "partyName": "Socialist Party of Sri Lanka",
+        "candidate": "MAHINDA DEWAGE",
+        "color": "#bc6c25"
+      },
+      {
+        "code": "IND9",
+        "partyName": "Independent Candidate 9",
+        "candidate": "ARIYANETHIRAN PAKKIYASELVAM",
+        "color": "#8338ec"
+      },
+      {
+        "code": "IND10",
+        "partyName": "Independent Candidate 10",
+        "candidate": "VICTOR PERERA",
+        "color": "#ff006e"
+      },
+      {
+        "code": "IND11",
+        "partyName": "Independent Candidate 11",
+        "candidate": "ANURUDDHA POLGAMPALA",
+        "color": "#118ab2"
+      },
+      {
+        "code": "SJB",
+        "partyName": "Samagi Jana Balawegaya",
+        "candidate": "SAJITH PREMADASA",
+        "color": "#00A859"
+      },
+      {
+        "code": "IND12",
+        "partyName": "Independent Candidate 12",
+        "candidate": "SARATH FONSEKA",
+        "color": "#e63946"
+      },
+      {
+        "code": "IND13",
+        "partyName": "Independent Candidate 13",
+        "candidate": "DISSANAYAKA MUDIYANSELAGE BANDARANAYAKE",
+        "color": "#06d6a0"
+      },
+      {
+        "code": "NDF",
+        "partyName": "Jathika Sangwardhena Peramuna",
+        "candidate": "SARATH BANDARANAYAKE",
+        "color": "#118ab2"
+      },
+      {
+        "code": "JSP",
+        "partyName": "Jana Setha Peramuna",
+        "candidate": "BATHTHARAMULLE SEELARATHANA THERO",
+        "color": "#2ec4b6"
+      },
+      {
+        "code": "SPF",
+        "partyName": "Socialist People Forum",
+        "candidate": "NUWAN BOPEGE",
+        "color": "#ff9f1c"
+      },
+      {
+        "code": "NSU",
+        "partyName": "Nawa Sihala Urumaya",
+        "candidate": "SARATH MANAMENDRA",
+        "color": "#ef476f"
+      },
+      {
+        "code": "IND14",
+        "partyName": "Independent Candidate 14",
+        "candidate": "PEMASIRI MANAGE",
+        "color": "#ff006e"
+      },
+      {
+        "code": "IND15",
+        "partyName": "Independent Candidate 15",
+        "candidate": "ANURUDDHA ROSHAN RANASINGHE",
+        "color": "#06d6a0"
+      },
+      {
+        "code": "ELPP",
+        "partyName": "Eksath Lanka Podujana Pakshaya",
+        "candidate": "JANAKA RATNAYAKE",
+        "color": "#40916c"
+      },
+      {
+        "code": "SBP",
+        "partyName": "Samabima Party",
+        "candidate": "NAMAL RAJAPAKSHA",
+        "color": "#8338ec"
+      },
+      {
+        "code": "SLPP",
+        "partyName": "Sri Lanka Podujana Peramuna",
+        "candidate": "NAMAL RAJAPAKSA",
+        "color": "#800000"
+      },
+      {
+        "code": "JPF",
+        "partyName": "National Democratic Front",
+        "candidate": "WIJEYADASA RAJAPAKSHE",
+        "color": "#3d5a80"
+      },
+      {
+        "code": "SLLP",
+        "partyName": "Sri Lanka Labour Party",
+        "candidate": "A.S.P. LIYANAGE",
+        "color": "#e63946"
+      },
+      {
+        "code": "AJP",
+        "partyName": "Ape Janabala Pakshaya",
+        "candidate": "KEERTHIE WICKRAMARATNE",
+        "color": "#2ec4b6"
+      },
+      {
+        "code": "NSSP",
+        "partyName": "Nawa Sama Samaja Party",
+        "candidate": "PRIYANTHA WICKRAMASINGHE",
+        "color": "#C00000"
+      },
+      {
+        "code": "IND16",
+        "partyName": "Independent Candidate 16",
+        "candidate": "RANIL WICKREMESINGHE",
+        "color": "#118ab2"
+      },
+      {
+        "code": "SEP",
+        "partyName": "Socialist Equality Party",
+        "candidate": "PANI WIJESIRIWARDENA",
+        "color": "#CC0000"
+      },
+      {
+        "code": "NIF",
+        "partyName": "New Independent Front",
+        "candidate": "OSHALA HERATH",
+        "color": "#40916c"
+      }
+    ]
+  }
+}
