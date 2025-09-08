@@ -301,6 +301,8 @@ html,
 .history-item:hover {
     background: #1d232b;
 }
+.history-item.selectable { cursor:pointer; }
+.history-item.selectable:hover { background:#222b33; }
 
 .hi-left {
     display: flex;
@@ -347,6 +349,19 @@ html,
 .map-district.outline:hover { fill-opacity:.15; }
 .map-district.has-data { cursor:pointer; transition:filter .25s, fill-opacity .35s; }
 .map-district.has-data:hover { filter:brightness(1.1); }
+
+/* Overlay (shared style) */
+.overlay-lite { position:fixed; inset:0; background:rgba(0,0,0,.55); display:flex; align-items:center; justify-content:center; z-index:100; }
+.overlay-content-box { width:min(900px,92%); max-height:88vh; overflow:auto; background:#161b22; border:1px solid var(--border); border-radius:14px; padding:24px; }
+.overlay-head { display:flex; justify-content:space-between; align-items:center; gap:16px; }
+.overlay-title { margin:0; font-size:20px; font-weight:600; }
+.btn-close { background:#333; color:#fff; border:1px solid #444; padding:8px 14px; cursor:pointer; border-radius:6px; font-size:12px; }
+.btn-close:hover { background:#3d3d3d; }
+.overlay-meta { margin:4px 0 14px; font-size:12px; opacity:.75; }
+.overlay-summary { display:flex; gap:26px; flex-wrap:wrap; }
+.summary-block { font-size:12px; display:flex; flex-direction:column; gap:6px; }
+.plain-list { list-style:none; padding:0; margin:0; }
+.subheading { margin:20px 0 10px; font-size:15px; font-weight:600; }
 
 /* Staging (bulk imports) */
 .staging-panel { border:1px solid var(--border); }

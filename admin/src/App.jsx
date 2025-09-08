@@ -17,6 +17,7 @@ export default function App(){
   const [districts, setDistricts] = useState([]);
   const [staged, setStaged] = useState([]); // staged bulk imports before submit
   const [submittingAll, setSubmittingAll] = useState(false);
+  const [selected, setSelected] = useState(null); // for detail overlay
   
   // Required metadata fields for enabling submit
   const requiredMeta = ['timestamp','level','ed_code','ed_name','pd_code','pd_name','type','sequence_number','reference'];
@@ -260,11 +261,11 @@ export default function App(){
       </div>
       </>}
 
-      {view === 'history' && <section className='panel'>
+    {view === 'history' && <section className='panel'>
         <PanelHeader title="Submitted Results (Live)" extra={<small style={{opacity:.7}}>{results.length} records</small>} />
         {results.length === 0 && <em style={{opacity:.7}}>No results yet</em>}
         <div className='history-list'>
-          {[...results].sort((a,b)=> new Date(b.createdAt) - new Date(a.createdAt)).map(r=> <div key={r.id} className='history-item'>
+      {[...results].sort((a,b)=> new Date(b.createdAt) - new Date(a.createdAt)).map(r=> <div key={r.id} className='history-item selectable' onClick={()=> setSelected(r)} title='Click for details'>
             <div className='hi-left'>
               <strong>{r.sequence_number || '-'}</strong>
               <span className='muted'>{r.ed_name} / {r.pd_name}</span>
@@ -276,12 +277,12 @@ export default function App(){
         </div>
       </section>}
 
-      {view === 'coverage' && <section className='panel'>
+    {view === 'coverage' && <section className='panel'>
         <PanelHeader title="District Coverage" extra={<small style={{opacity:.7}}>{receivedDistricts}/{totalDistricts} districts reported</small>} />
         <div style={{margin:'10px 0 16px', height:8, background:'#0f141a', borderRadius:4, overflow:'hidden', border:'1px solid var(--border)'} }>
           <div style={{width: totalDistricts? (receivedDistricts/totalDistricts*100).toFixed(1)+'%' : '0%', background:'var(--accent)', height:'100%'}} />
         </div>
-  <CoverageMap winners={winners} />
+  <CoverageMap winners={winners} onSelect={(rec)=> setSelected(rec)} />
         <div style={{display:'flex', gap:14, flexWrap:'wrap', fontSize:11, marginTop:10}}>
           <span style={{display:'flex', alignItems:'center', gap:4}}><span style={{width:14,height:14,background:'#222b33',borderRadius:3}}></span> No Data</span>
           <span style={{display:'flex', alignItems:'center', gap:4}}><span style={{width:14,height:14,background:'var(--accent)',opacity:.6,borderRadius:3}}></span> Partial</span>
@@ -294,6 +295,7 @@ export default function App(){
       </section>}
     </main>
   <Footer />
+  <DetailOverlay result={selected} onClose={()=> setSelected(null)} />
   </div>;
 }
 
@@ -316,7 +318,7 @@ function Header({ onUploadClick, current, onChange }){
 }
 
 function Footer(){
-  return <footer className='footer'>In-memory prototype • {new Date().getFullYear()}</footer>;
+  return <footer className='footer'>Inteli_Election_Application • {new Date().getFullYear()}</footer>;
 }
 
 function PanelHeader({ title, extra }){
@@ -336,7 +338,7 @@ function Toast({ text, type }){
 
 
 // Basic coverage map (color districts with any result). For simplicity using inline filtered version of original SVG paths.
-function CoverageMap({ winners }){
+function CoverageMap({ winners, onSelect }){
   const byName = useMemo(()=> Object.fromEntries(winners.map(w=> [normalizeName(aliasName(w.ed_name)), w])), [winners]);
   const colorFor = (code) => {
     const colors = ['#3b82f6','#10b981','#f59e0b','#ef4444','#6366f1','#0ea5e9','#f43f5e','#84cc16'];
@@ -354,7 +356,7 @@ function CoverageMap({ winners }){
           }
           const fill = colorFor(win.party_code);
           const opacity = win.complete? 1 : (0.55 + 0.45 * win.ratio);
-          return <path key={p.name} d={p.d} fill={fill} fillOpacity={opacity} className='map-district has-data'>
+          return <path key={p.name} d={p.d} fill={fill} fillOpacity={opacity} className='map-district has-data' onClick={()=> onSelect?.(win.record)}>
             <title>{`${p.name} - ${win.party_code || 'N/A'} (${Math.round(win.ratio*100)}% divisions)`}</title>
           </path>;
         })}
@@ -372,4 +374,34 @@ function aliasName(name){
     kandy:'mahanuwara',
   };
   return map[n] || name;
+}
+
+// Lightweight detail overlay (admin side) to inspect submitted result JSON
+function DetailOverlay({ result, onClose }){
+  if(!result) return null;
+  const parties = (result.by_party||[]).slice().sort((a,b)=> b.votes - a.votes);
+  const totalVotes = parties.reduce((a,p)=> a + (p.votes||0),0);
+  return <div className='overlay-lite' role='dialog'>
+    <div className='overlay-content-box'>
+      <div className='overlay-head'>
+        <h2 className='overlay-title'>{result.ed_name} / {result.pd_name}</h2>
+        <button className='btn-close' onClick={onClose}>Close</button>
+      </div>
+      <p className='overlay-meta'>Seq {result.sequence_number || '-'} • Ref {result.reference || '-'} • {new Date(result.createdAt).toLocaleString()}</p>
+      <div className='overlay-summary'>
+        <div className='summary-block'>
+          <strong>Summary</strong>
+          <ul className='plain-list'>{Object.entries(result.summary||{}).map(([k,v])=> <li key={k}>{k}: <strong>{v}</strong></li>)}</ul>
+          <div className='totals-line'>Total Votes (by_party sum): <strong>{totalVotes.toLocaleString()}</strong></div>
+        </div>
+      </div>
+      <h3 className='subheading'>Parties</h3>
+      <table className='data-table' style={{maxWidth:520}}>
+        <thead><tr><th>Code</th><th>Name</th><th style={{textAlign:'right'}}>Votes</th><th style={{textAlign:'right'}}>%</th></tr></thead>
+        <tbody>{parties.map(p=> <tr key={p.party_code}><td>{p.party_code}</td><td>{p.party_name}</td><td style={{textAlign:'right'}}>{(p.votes||0).toLocaleString()}</td><td style={{textAlign:'right'}}>{p.percentage!=null? p.percentage: ''}</td></tr>)}</tbody>
+      </table>
+      <h3 className='subheading'>Raw JSON</h3>
+      <pre style={{maxHeight:200, overflow:'auto', background:'#0f141a', padding:12, border:'1px solid #222b33', borderRadius:8, fontSize:11}}>{JSON.stringify(result, null, 2)}</pre>
+    </div>
+  </div>;
 }
