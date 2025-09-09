@@ -383,7 +383,7 @@ html,
 }
 
 .overlay-content-box {
-    width: min(940px, 94%);
+    width: min(540px, 94%);
     max-height: 88vh;
     overflow: auto;
     background: linear-gradient(145deg, rgba(22, 27, 34, 0.92) 0%, rgba(17, 22, 28, 0.86) 60%) padding-box;

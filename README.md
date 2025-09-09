@@ -44,7 +44,7 @@ Sections provided:
 - `POST /api/results` create a new result (payload matches structure in prompt)
 - `GET /api/districts` district + division metadata
 
-### Next Improvements (Suggestions)
+### Next Improvements
 - Persist data in a database (e.g., SQLite / PostgreSQL)
 - Auth for admin (JWT)
 - Validation & percentage auto-calculation
