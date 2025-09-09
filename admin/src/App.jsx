@@ -3,6 +3,7 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 import paths from './data/paths.json';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000';
 const empty = { timestamp: '', level: '', ed_code: '', ed_name: '', pd_code: '', pd_name: '', type: 'PRESIDENTIAL-FIRST', sequence_number: '', reference: '', summary: { valid: 0, rejected: 0, polled: 0, electors: 0, percent_valid: 0, percent_rejected: 0, percent_polled: 0 }, by_party: [] };
 
 export default function App() {
@@ -20,7 +21,7 @@ export default function App() {
   const [selected, setSelected] = useState(null); // for detail overlay
 
   // Required metadata fields for enabling submit
-  const requiredMeta = ['timestamp', 'level', 'ed_code', 'ed_name', 'pd_code', 'pd_name', 'type', 'sequence_number', 'reference'];
+  const requiredMeta = ['timestamp', 'level', 'ed_code', 'ed_name', 'type', 'sequence_number', 'reference'];
   const formValid = useMemo(() => {
     // All required meta non-empty (allow 0 numeric) and at least one party with votes
     const metaOk = requiredMeta.every(k => {
@@ -33,9 +34,9 @@ export default function App() {
 
   // live subscribe to results for history / coverage
   useEffect(() => {
-    axios.get('http://localhost:4000/api/results').then(r => setResults(r.data));
-    axios.get('http://localhost:4000/api/districts').then(r => setDistricts(r.data));
-    const socket = io('http://localhost:4000');
+    axios.get(`${API_BASE}/api/results`).then(r => setResults(r.data));
+    axios.get(`${API_BASE}/api/districts`).then(r => setDistricts(r.data));
+    const socket = io(API_BASE);
     socket.on('results:all', data => setResults(data));
     socket.on('result:new', rec => setResults(prev => [...prev, rec]));
     return () => socket.close();
@@ -83,7 +84,7 @@ export default function App() {
     try {
       setBusy(true);
       const payload = maybeRecalculate(form);
-      await axios.post('http://localhost:4000/api/results', payload);
+      await axios.post(`${API_BASE}/api/results`, payload);
       notify('Saved result', 'success');
       setForm(empty);
     } catch (e) {
@@ -141,7 +142,7 @@ export default function App() {
     if (!item || !item.data) return;
     try {
       const payload = maybeRecalculate(item.data);
-      await axios.post('http://localhost:4000/api/results', payload);
+      await axios.post(`${API_BASE}/api/results`, payload);
       setStaged(s => s.map(x => x.id === id ? { ...x, status: 'success' } : x));
     } catch (err) {
       console.error(err);

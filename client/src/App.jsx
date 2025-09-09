@@ -8,7 +8,7 @@ import { BarChart, PieChart, LeadMarginChart, CoverageTimeline, PartyTrendChart 
 import DetailOverlay from './components/DetailOverlay';
 import SortableTH from './components/SortableTH';
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000';
 
 function App(){
   // Raw state
@@ -33,7 +33,9 @@ function App(){
 
   // Sort results newest first for timeline / latest result
   const resultsSorted = useMemo(()=> {
-    return [...results].sort((a,b)=> new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    const sorted = [...results].sort((a,b)=> new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    console.log('resultsSorted updated:', sorted.length);
+    return sorted;
   },[results]);
   const latestResult = resultsSorted[0];
 
@@ -45,7 +47,9 @@ function App(){
       const prev = byDivision.get(r.pd_code);
       if(!prev || new Date(r.createdAt) > new Date(prev.createdAt)) byDivision.set(r.pd_code, r);
     });
-    return Array.from(byDivision.values());
+    const latest = Array.from(byDivision.values());
+    console.log('latestPerDivision updated:', latest.length);
+    return latest;
   },[results]);
 
   // Aggregated district level data (coverage + parties + winners)
@@ -89,8 +93,8 @@ function App(){
   },[districts, latestPerDivision]);
 
   // Winners list for map component
-  const districtWinners = useMemo(()=> (
-    districtData.filter(d=> d.topParty).map(d=> ({
+  const districtWinners = useMemo(()=> {
+    const winners = districtData.filter(d=> d.topParty).map(d=> ({
       ed_code:d.ed_code,
       ed_name:d.ed_name,
       party_code:d.topParty,
@@ -98,8 +102,10 @@ function App(){
       complete:d.complete,
       ratio:d.coverageRatio,
       data:d
-    }))
-  ),[districtData]);
+    }));
+    console.log('districtWinners updated:', winners.length);
+    return winners;
+  },[districtData]);
 
   // District totals raw (for sorting / charts)
   const districtTotalsRaw = useMemo(()=> districtData.map(d=> ({
@@ -158,7 +164,9 @@ function App(){
   const islandTotals = useMemo(()=> {
     const map = new Map();
     districtData.forEach(d=> d.parties.forEach(p=> { const prev=map.get(p.party_code)||{ party_code:p.party_code, party_name:p.party_name, votes:0 }; prev.votes+=p.votes; map.set(p.party_code, prev); }));
-    return Array.from(map.values()).sort((a,b)=> b.votes-a.votes);
+    const totals = Array.from(map.values()).sort((a,b)=> b.votes-a.votes);
+    console.log('islandTotals updated:', totals.length);
+    return totals;
   },[districtData]);
 
   const totalDistricts = districtData.length;
