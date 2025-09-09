@@ -1,36 +1,28 @@
-## Election App Monorepo
+## Election App (Frontend Only)
 
-Folders
-- `server` Node.js Express + Socket.IO backend (port 4000)
-- `admin` React Vite admin UI (port 5174)
-- `client` React Vite public/live dashboard (port 5175)
+Backend code has been removed. This repository now contains only the public dashboard React app under `client`.
 
 ### 1. Install Dependencies
-Run inside each folder:
+From repo root:
 ```
-cd server && npm install
-cd ../admin && npm install
-cd ../client && npm install
-```
-
-### 2. Start Services (separate terminals)
-```
-cd server && npm run dev
-cd admin && npm run dev
-cd client && npm run dev
+cd client
+npm install
 ```
 
-### 3. Admin Data Entry
-Open http://localhost:5174 and fill the form:
-1. Enter metadata fields (timestamp etc.)
-2. Fill summary numbers
-3. Add parties row by row (party_code unique recommended)
-4. Submit (POST /api/results). Broadcast events:
-   - `result:new` single new record
-   - `results:all` full array after insertion
+### 2. Run Dev Server
+```
+cd client
+npm run dev
+```
 
-### 4. Client Dashboard
-Open http://localhost:5175 to see live dashboard updating via WebSocket.
+### 3. Data Source
+The app now operates in static mode:
+- District metadata loaded from `client/src/data/districts.json`.
+- Results loaded from `client/src/data/results.sample.json` (currently empty array).
+Add or replace that file with precomputed result objects to visualize aggregates.
+
+### 4. Dashboard
+Open http://localhost:5173 (default Vite port) to view the dashboard. Live socket updates & REST calls were removed.
 
 Sections provided:
 - Latest Result - Just Received (clickable for detail)
@@ -39,21 +31,17 @@ Sections provided:
 - All Results in Received Order (chronological list)
 - District Leaders table & interactive placeholder map (click for detail overlay)
 
-### API
-- `GET /api/results` array of all submitted results
-- `POST /api/results` create a new result (payload matches structure in prompt)
-- `GET /api/districts` district + division metadata
+### Removed API Layer
+All references to Express / Socket.IO backend have been removed. To restore live mode, reintroduce a server providing the former endpoints and re-add axios + socket.io-client usage in `App.jsx`.
 
-### Next Improvements
-- Persist data in a database (e.g., SQLite / PostgreSQL)
-- Auth for admin (JWT)
-- Validation & percentage auto-calculation
-- Real SVG map of Sri Lanka with district shapes (color by leading party)
-- Aggregation endpoints (per party totals, national summary)
+### Possible Next Steps
+- Replace static `results.sample.json` with real-time feed service.
+- Add a lightweight file uploader to load a JSON results dump at runtime (client-side only).
+- Integrate a static-site build & deploy (Netlify / Vercel / GitHub Pages).
 
 ### Notes
-- Current storage is in-memory; restart clears data.
-- CORS is open for development; tighten in production.
+- With backend removed, no data persistence or mutation occurs.
+- Ensure any added sample results conform to original schema documented below.
 
 ---
 

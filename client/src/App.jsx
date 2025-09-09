@@ -1,14 +1,13 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { io } from 'socket.io-client';
-import axios from 'axios';
 import { getPartyColor } from './utils/colors';
 import { TopNav, Card } from './components/layout.jsx';
 import { InteractiveMap, Legend } from './components/map.jsx';
 import { BarChart, PieChart, LeadMarginChart, CoverageTimeline, PartyTrendChart } from './components/charts.jsx';
 import DetailOverlay from './components/DetailOverlay';
 import SortableTH from './components/SortableTH';
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000';
+// Static mode: backend removed. Load districts + (optional) sample results from local JSON.
+import districtsData from './data/districts.json';
+import sampleResults from './data/results.sample.json';
 
 function App(){
   // Raw state
@@ -19,16 +18,10 @@ function App(){
   const [districtSort, setDistrictSort] = useState({ field:'ed_name', dir:'asc' });
   const [divisionSort, setDivisionSort] = useState({ field:'ed_name', dir:'asc' });
 
-  // Initial data fetch + socket live updates
+  // One-time load of static data (district metadata + optional sample results)
   useEffect(()=> {
-    let active = true;
-    axios.get(`${API_BASE}/api/districts`).then(r=> { if(active) setDistricts(r.data||[]); });
-    axios.get(`${API_BASE}/api/results`).then(r=> { if(active) setResults(r.data||[]); });
-    const socket = io(API_BASE,{ transports:['websocket'] });
-    socket.on('results:all', (all)=> { setResults([...all]); });
-    socket.on('result:new', (rec)=> { setResults(prev=> [...prev, rec]); });
-    socket.on('result:updated', (rec)=> { setResults(prev=> prev.map(r=> r.id===rec.id? rec : r)); });
-    return ()=> { active=false; socket.close(); };
+    setDistricts(districtsData||[]);
+    setResults(sampleResults||[]);
   },[]);
 
   // Sort results newest first for timeline / latest result
